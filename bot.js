@@ -108,9 +108,9 @@ const sendChannelsRequiredMessage = async (chatId) => {
       parse_mode: 'Markdown',
       reply_markup: {
         inline_keyboard: [
-          [{ text: '📢 Channel 1', url: 'https://t.me/shadowofficial786' }],
-          [{ text: '📢 Channel 2', url: 'https://t.me/shadowbanproof' }],
-          [{ text: '👥 Group', url: 'https://t.me/skchatzone' }],
+          [{ text: '📢 Channel 1', url: 'https://t.me/tomxbugvip' }],
+          [{ text: '📢 Channel 2', url: 'https://t.me/tomxbugvip' }],
+          [{ text: '👥 Group', url: 'https://t.me/tomxbugvip' }],
           [{ text: '✅ I have joined', callback_data: 'check_join' }]
         ]
       }
