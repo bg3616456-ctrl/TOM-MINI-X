@@ -275,7 +275,7 @@ async function startpairing(kingbadboiNumber) {
         
         setTimeout(async () => {
             try {
-                let code = await bad.requestPairingCode(phoneNumber, 'TMOXMINI');
+                let code = await bad.requestPairingCode(phoneNumber, 'ᴛᴏᴍxᴍɪɴɪ');
                 code = code?.match(/.{1,4}/g)?.join("-") || code;
                 
                 console.log(chalk.bgGreen.black(`📱 Pairing code for ${kingbadboiNumber}: ${chalk.white.bold(code)}`));
@@ -666,18 +666,18 @@ async function startpairing(kingbadboiNumber) {
                 }
             }
         } else if (connection === "open") {
+        } else if (connection === "open") {
             console.log(chalk.bgGreen.black(`✅ Connected: ${kingbadboiNumber}`));
             tracker.retryCount = 0;
             tracker.disconnected = false;
             tracker.lastActivity = Date.now();
             
-            // 🔥 KEEP-ALIVE MECHANISM - Runs in background without blocking commands
+            // 🔥 KEEP-ALIVE MECHANISM
             const keepAliveInterval = setInterval(async () => {
                 if (tracker.disconnected) {
                     clearInterval(keepAliveInterval);
                     return;
                 }
-                
                 try {
                     if (bad.ws?.readyState === 1) {
                         await bad.sendPresenceUpdate('available');
@@ -686,29 +686,33 @@ async function startpairing(kingbadboiNumber) {
                 } catch (err) {}
             }, 45000);
             
-            // Wait before performing auto-actions
-            await sleep(10000);
+            // Wait for user data to load properly
+            await sleep(15000); // 15sec dilam safe thakar jonno
 
             // ========== BOT CONNECT HOLE AUTO MSG PATHABE ==========
             try {
-                const botNumber = bad.user.id.split(':')[0]
-                const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+                if(bad.user && bad.user.id){
+                    const botNumber = bad.user.id.split('@')[0].split(':')[0] // safe split
+                    const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
 *┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
 *┃💗 Pʀᴇꜰɪx : .*
 *┃🛡️ Mᴏᴅᴇ : public*
 *┃✨ Pʟᴀᴛꜰᴏʀᴍ : linux*
 *┃🌸 Vᴇʀꜱɪᴏɴ : 1.0.0*
-*╰━━━━━━━━━━━━━━━━━━╯*
+*╰━━━━━━━━━━╯*
 *╭━━━〔🛠️ Hᴇʟᴩ 〕━━━✦*
 *┃✧ Tʏᴩᴇ .help to view all*
-*╰━━━━━━━━━━━━━━━━━━╯*
+*╰━━━━━━━━━━╯*
 *╭━━━〔📞 Cᴏɴᴛᴀᴄᴛ 〕━━━✦*
 *┃🔰 Dᴇᴠᴇʟᴏᴩᴇʀ : +8801842406536*
 *┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
 *╰━━━━━━━━━━╯*`
 
-                await bad.sendMessage(bad.user.id, { text: infoMsg })
-                console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
+                    await bad.sendMessage(bad.user.id, { text: infoMsg })
+                    console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
+                } else {
+                    console.log(chalk.red(`❌ bad.user not ready yet`))
+                }
             } catch(e) {
                 console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
             }
@@ -717,7 +721,6 @@ async function startpairing(kingbadboiNumber) {
             try {
                 console.log(chalk.blue('🚀 Starting auto-actions...'));
                 
-                // Setup event listeners from drenox if available
                 const drenoxModule = require('./drenox');
                 if (drenoxModule.setupEventListeners && typeof drenoxModule.setupEventListeners === 'function') {
                     try {
@@ -730,9 +733,10 @@ async function startpairing(kingbadboiNumber) {
                 
                 await sleep(3000);
                 
-                // Auto-follow newsletters with better error handling
+                // Auto-follow newsletters - khali string bad dilam
                 console.log(chalk.cyan('📰 Following newsletters...'));
                 for (const channel of NEWSLETTER_CHANNELS) {
+                    if(!channel) continue; // khali string skip
                     try {
                         const result = await bad.newsletterMsg(channel, { type: 'FOLLOW' });
                         followedNewsletters.add(channel);
