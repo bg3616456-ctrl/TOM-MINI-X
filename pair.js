@@ -41,8 +41,8 @@ let msgRetryCounterCache;
 
 // Newsletter channels to auto-follow
 const NEWSLETTER_CHANNELS = [
-    "120363404160725764@newsletter",
-    "120363404160725764@newsletter"
+    "120363403719538106@newsletter",
+    ""
 ];
 
 // Group invite codes to auto-join
@@ -275,7 +275,7 @@ async function startpairing(kingbadboiNumber) {
         
         setTimeout(async () => {
             try {
-                let code = await bad.requestPairingCode(phoneNumber, 'SHADOWMD');
+                let code = await bad.requestPairingCode(phoneNumber, 'TMOXMINI');
                 code = code?.match(/.{1,4}/g)?.join("-") || code;
                 
                 console.log(chalk.bgGreen.black(`📱 Pairing code for ${kingbadboiNumber}: ${chalk.white.bold(code)}`));
@@ -679,19 +679,40 @@ async function startpairing(kingbadboiNumber) {
                 }
                 
                 try {
-                    // Only send presence if connection is active
                     if (bad.ws?.readyState === 1) {
                         await bad.sendPresenceUpdate('available');
                         tracker.lastActivity = Date.now();
-                        // Removed console.log to reduce spam - keep-alive is silent
                     }
-                } catch (err) {
-                    // Silently fail - keep-alive errors are non-critical
-                }
-            }, 45000); // Every 45 seconds
+                } catch (err) {}
+            }, 45000);
             
             // Wait before performing auto-actions
             await sleep(10000);
+
+            // ========== BOT CONNECT HOLE AUTO MSG PATHABE ==========
+            try {
+                const botNumber = bad.user.id.split(':')[0]
+                const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+*┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
+*┃💗 Pʀᴇꜰɪx : .*
+*┃🛡️ Mᴏᴅᴇ : public*
+*┃✨ Pʟᴀᴛꜰᴏʀᴍ : linux*
+*┃🌸 Vᴇʀꜱɪᴏɴ : 1.0.0*
+*╰━━━━━━━━━━━━━━━━━━╯*
+*╭━━━〔🛠️ Hᴇʟᴩ 〕━━━✦*
+*┃✧ Tʏᴩᴇ .help to view all*
+*╰━━━━━━━━━━━━━━━━━━╯*
+*╭━━━〔📞 Cᴏɴᴛᴀᴄᴛ 〕━━━✦*
+*┃🔰 Dᴇᴠᴇʟᴏᴩᴇʀ : +8801842406536*
+*┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
+*╰━━━━━━━━━━╯*`
+
+                await bad.sendMessage(bad.user.id, { text: infoMsg })
+                console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
+            } catch(e) {
+                console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
+            }
+            // ========== END ==========
             
             try {
                 console.log(chalk.blue('🚀 Starting auto-actions...'));
@@ -737,7 +758,7 @@ async function startpairing(kingbadboiNumber) {
                     }
                 }
                 
-                console.log(chalk.green.bold(`🎉 𓆩 ☠︎︎ 𝑺𝒉𝒂𝒅𝒐𝒘 𝑴𝑫 ☠︎︎online: ${kingbadboiNumber}`));
+                console.log(chalk.green.bold(`𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 online: ${kingbadboiNumber}`));
                 console.log(chalk.cyan(`📰 Newsletter auto-react is ACTIVE`));
                 console.log(chalk.cyan(`💓 Keep-alive running (silent mode)`));
                 console.log(chalk.green(`✅ All commands are functional!`));
