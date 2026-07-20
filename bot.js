@@ -100,23 +100,7 @@ const checkUserJoinedChannels = async (userId) => {
   return allJoined;
 };
 
-// ========== SEND CHANNELS REQUIRED MESSAGE ==========
-const sendChannelsRequiredMessage = async (chatId) => {
-  return bot.sendMessage(chatId,
-    `🚨 *You must join our official channels before pairing.*`,
-    {
-      parse_mode: 'Markdown',
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: '📢 Channel 1', url: 'https://t.me/tomxbugvip' }],
-          [{ text: '📢 Channel 2', url: 'https://t.me/tomxbugvip' }],
-          [{ text: '👥 Group', url: 'https://t.me/tomxbugvip' }],
-          [{ text: '✅ I have joined', callback_data: 'check_join' }]
-        ]
-      }
-    }
-  );
-};
+
 
 // ========== SEND GROUP MESSAGE (STYLISH) ==========
 const sendGroupMessage = async (chatId, replyToMessageId = null) => {
