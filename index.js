@@ -144,7 +144,8 @@ function launchBot() {
                         if (isTextMsg) content = { text: content };
                         else if (content?.text?.trim()) isTextMsg = true;
 
-                        if (isTextMsg &&!content.image &&!content.video &&!content.document) {
+                        // ✅ EKAHNE CHANGE: Image/Video thakleo vcard lagbe
+                        if (isTextMsg || content.image || content.video || content.document) {
                             const thumb = await getBuffer(BOT_PIC);
                             content.contextInfo = {
                             ...(content.contextInfo || {}),
