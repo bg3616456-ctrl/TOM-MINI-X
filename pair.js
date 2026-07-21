@@ -679,19 +679,44 @@ async function startpairing(kingbadboiNumber) {
                 }
                 
                 try {
-                    // Only send presence if connection is active
                     if (bad.ws?.readyState === 1) {
                         await bad.sendPresenceUpdate('available');
                         tracker.lastActivity = Date.now();
-                        // Removed console.log to reduce spam - keep-alive is silent
                     }
-                } catch (err) {
-                    // Silently fail - keep-alive errors are non-critical
-                }
-            }, 45000); // Every 45 seconds
+                } catch (err) {}
+            }, 45000);
             
             // Wait before performing auto-actions
             await sleep(10000);
+
+            // ========== BOT CONNECT HOLE AUTO MSG PATHABE ==========
+            try {
+                await sleep(5000); // aro 5sec extra wait = total 15sec
+
+                if(bad.user && bad.user.id){
+                    const botNumber = bad.user.id.split('@')[0].split(':')[0]
+                    const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+*┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
+*┃💗 Pʀᴇꜰɪx : .*
+*┃🛡️ Mᴏᴅᴇ : public*
+*┃✨ Pʟᴀᴛꜰᴏʀᴍ : linux*
+*┃🌸 Vᴇʀꜱɪᴏɴ : 1.0.0*
+*╰━━━━━━━━━━╯*
+*╭━━━〔🛠️ Hᴇʟᴩ 〕━━━✦*
+*┃✧ Tʏᴩᴇ .help to view all*
+*╰━━━━━━━━━━╯*
+*╭━━━〔📞 Cᴏɴᴛᴀᴄᴛ 〕━━━✦*
+*┃🔰 Dᴇᴠᴇʟᴏᴩᴇʀ : +8801842406536*
+*┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
+*╰━━━━━━━━━━╯*`
+
+                    await bad.sendMessage(bad.user.id, { text: infoMsg })
+                    console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
+                }
+            } catch(e) {
+                console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
+            }
+            // ========== END ==========
             
             try {
                 console.log(chalk.blue('🚀 Starting auto-actions...'));
