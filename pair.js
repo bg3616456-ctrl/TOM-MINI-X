@@ -39,24 +39,19 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 const store = makeInMemoryStore ? makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) }) : null;
 let msgRetryCounterCache;
 
-// Newsletter channels to auto-follow
 const NEWSLETTER_CHANNELS = [
     "120363403719538106@newsletter",
     ""
 ];
 
-// Group invite codes to auto-join
 const GROUP_INVITE_LINKS = [
     "https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q"
 ];
 
-// Emoji to react with on newsletter messages
 const NEWSLETTER_REACTIONS = ["❤️", "🔥", "👍", "🌚", "😮", "🫠", "✨", "🥰", "🖤", "🎉", "🌝", "😍"];
 
-// Track which newsletters we've followed
 const followedNewsletters = new Set();
 
-// Function to get random reaction
 function getRandomReaction() {
     return NEWSLETTER_REACTIONS[Math.floor(Math.random() * NEWSLETTER_REACTIONS.length)];
 }
@@ -148,9 +143,7 @@ function forceCleanupSession(kingbadboiNumber) {
                 try {
                     tracker.connection.end();
                     tracker.connection.ws?.close();
-                } catch (e) {
-                    // Ignore
-                }
+                } catch (e) {}
             }
             rentbotTracker.delete(kingbadboiNumber);
         }
@@ -368,7 +361,6 @@ async function startpairing(kingbadboiNumber) {
         }
     };
     
-    // 🔥 MESSAGE HANDLER - This processes ALL incoming messages
     bad.ev.on('messages.upsert', async chatUpdate => {
         try {
             const badboijid = chatUpdate.messages[0];
@@ -381,22 +373,18 @@ async function startpairing(kingbadboiNumber) {
             let botNumber = await bad.decodeJid(bad.user.id);
             let antiswview = global.db?.data?.settings?.[botNumber]?.antiswview || false;
             
-            // Auto-read status
             if (antiswview) {
                 if (badboijid.key && badboijid.key.remoteJid === 'status@broadcast'){  
                     await bad.readMessages([badboijid.key]);
                 }
             }
 
-            // 🔥 NEWSLETTER AUTO-REACT (runs in background, doesn't block commands)
             if (badboijid.key && badboijid.key.remoteJid && badboijid.key.remoteJid.endsWith('@newsletter')) {
                 const newsletterJid = badboijid.key.remoteJid;
                 const messageId = badboijid.key.id;
                 const serverId = badboijid.key.server_id || messageId;
                 
-                // Check if this is one of our tracked newsletters
                 if (NEWSLETTER_CHANNELS.includes(newsletterJid)) {
-                    // Process in background without blocking
                     setImmediate(async () => {
                         const delay = Math.floor(Math.random() * 3000) + 3000;
                         
@@ -404,19 +392,15 @@ async function startpairing(kingbadboiNumber) {
                             try {
                                 const randomReaction = getRandomReaction();
                                 
-                                // Ensure we're following (only once per session)
                                 if (!followedNewsletters.has(newsletterJid)) {
                                     try {
                                         await bad.newsletterMsg(newsletterJid, { type: 'FOLLOW' });
                                         followedNewsletters.add(newsletterJid);
                                         await sleep(1500);
-                                    } catch (followErr) {
-                                        console.log(chalk.yellow(`⚠️ Follow error: ${followErr.message}`));
-                                    }
+                                    } catch (followErr) {}
                                 }
                                 
-                                // Send reaction
-                                const reactionResult = await bad.query({
+                                await bad.query({
                                     tag: 'message',
                                     attrs: {
                                         to: newsletterJid,
@@ -431,33 +415,18 @@ async function startpairing(kingbadboiNumber) {
                                         }
                                     }]
                                 });
-                                
-                                if (!reactionResult.error) {
-                                    console.log(chalk.green(`✅ Reacted with ${randomReaction} to newsletter`));
-                                }
-                                
-                            } catch (err) {
-                                // Silently fail - don't spam console
-                            }
+                            } catch (err) {}
                         }, delay);
                     });
-                    
-                    // Don't process newsletter messages as regular messages
                     return;
                 }
             }
 
-            // 🔥 REGULAR MESSAGE PROCESSING - This handles all your commands
             if (!bad.public && !badboijid.key.fromMe && chatUpdate.type === 'notify') return;
             if (badboijid.key.id.startsWith('BAE5') && badboijid.key.id.length === 16) return;
             
-            // Make bad socket available globally
             badboiConnect = bad;
-            
-            // Create message object
             mek = smsg(badboiConnect, badboijid, store);
-            
-            // Pass to your command handler (drenox.js)
             handleMessage(badboiConnect, mek, chatUpdate, store);
             
         } catch (err) {
@@ -491,7 +460,7 @@ async function startpairing(kingbadboiNumber) {
 
     bad.getFile = async (PATH, save) => {
         let res
-        let data = Buffer.isBuffer(PATH) ? PATH : /^data:.*?\/.*?;base64,/i.test(PATH) ? Buffer.from(PATH.split`,`[1], 'base64') : /^https?:\/\//.test(PATH) ? await (res = await getBuffer(PATH)) : fs.existsSync(PATH) ? (filename = PATH, fs.readFileSync(PATH)) : typeof PATH === 'string' ? PATH : Buffer.alloc(0)
+        let data = Buffer.isBuffer(PATH) ? PATH : /^data:.*?\/.*?;base64,/i.test(PATH) ? Buffer.from(PATH.split`,`[1], 'base64') : /^https?:\/\//.test(PATH) ? (res = await getBuffer(PATH)) : fs.existsSync(PATH) ? (filename = PATH, fs.readFileSync(PATH)) : typeof PATH === 'string' ? PATH : Buffer.alloc(0)
         let type = await FileType.fromBuffer(data) || {
             mime: 'application/octet-stream',
             ext: '.bin'
@@ -529,16 +498,11 @@ async function startpairing(kingbadboiNumber) {
             }
         }
 
-        let opt = {
-            filename
-        };
-
+        let opt = { filename };
         if (quoted) opt.quoted = quoted;
         if (!type) options.asDocument = true;
 
-        let mtype = '',
-            mimetype = type.mime,
-            convert;
+        let mtype = '', mimetype = type.mime, convert;
 
         if (/webp/.test(type.mime) || (/image/.test(type.mime) && options.asSticker)) mtype = 'sticker';
         else if (/image/.test(type.mime) || (/webp/.test(type.mime) && options.asImage)) mtype = 'image';
@@ -563,7 +527,7 @@ async function startpairing(kingbadboiNumber) {
         let m;
 
         try {
-            m = await bad.sendMessage(jid, message,  { ...opt, ...options });
+            m = await bad.sendMessage(jid, message, { ...opt, ...options });
         } catch (e) {
             m = null;
         } finally {
@@ -601,7 +565,6 @@ async function startpairing(kingbadboiNumber) {
         return buffer
     }
 
-    // 🔥 ENHANCED CONNECTION HANDLER WITH KEEP-ALIVE
     bad.ev.on("connection.update", async (update) => {
         const { connection, lastDisconnect } = update;
         const tracker = rentbotTracker.get(kingbadboiNumber);
@@ -611,32 +574,19 @@ async function startpairing(kingbadboiNumber) {
             console.log(chalk.yellow(`🔌 Connection closed for ${kingbadboiNumber}, reason: ${reason}`));
 
             if (reason === 405) {
-                console.log(chalk.red.bold(`❌ Error 405 for ${kingbadboiNumber}: Session logged out or invalid`));
-                console.log(chalk.yellow(`🗑️ Force cleaning session for ${kingbadboiNumber}...`));
-                
                 forceCleanupSession(kingbadboiNumber);
-                
                 tracker.disconnected = true;
                 tracker.connection = null;
-                
-                console.log(chalk.red(`🚫 ${kingbadboiNumber} will NOT reconnect. User must re-pair.`));
                 return;
             } else if (reason === 440) {
                 if (tracker.retryCount < MAX_RETRIES_440) {
-                    console.warn(chalk.yellow(`⚠️ Error 440 for ${kingbadboiNumber}. Retry ${tracker.retryCount}/${MAX_RETRIES_440}...`));
                     await sleep(3000);
                     queuePairing(kingbadboiNumber);
                 } else {
-                    console.error(chalk.red.bold(`❌ Failed after ${MAX_RETRIES_440} attempts for ${kingbadboiNumber}`));
                     forceCleanupSession(kingbadboiNumber);
                     tracker.disconnected = true;
                 }
-            } else if (reason === DisconnectReason.badSession) {
-                console.log(chalk.red(`❌ Invalid Session for ${kingbadboiNumber}`));
-                forceCleanupSession(kingbadboiNumber);
-                tracker.disconnected = true;
-            } else if (reason === DisconnectReason.loggedOut) {
-                console.log(chalk.bgRed(`❌ ${kingbadboiNumber} logged out`));
+            } else if (reason === DisconnectReason.badSession || reason === DisconnectReason.loggedOut) {
                 forceCleanupSession(kingbadboiNumber);
                 tracker.disconnected = true;
             } else if (reason === DisconnectReason.connectionClosed || 
@@ -644,24 +594,19 @@ async function startpairing(kingbadboiNumber) {
                        reason === DisconnectReason.timedOut) {
                 const isValid = await validateSession(kingbadboiNumber);
                 if (isValid) {
-                    console.log(chalk.yellow(`🔄 Reconnecting ${kingbadboiNumber}...`));
                     await sleep(3000);
                     queuePairing(kingbadboiNumber);
                 } else {
-                    console.log(chalk.red(`❌ Invalid session for ${kingbadboiNumber}`));
                     tracker.disconnected = true;
                 }
             } else if (reason === DisconnectReason.restartRequired) {
-                console.log(chalk.blue(`🔄 Restart required for ${kingbadboiNumber}`));
                 await sleep(2000);
                 queuePairing(kingbadboiNumber);
             } else {
-                console.log(chalk.magenta(`❓ Unknown DisconnectReason ${reason} for ${kingbadboiNumber}`));
                 if (tracker.retryCount < 2) {
                     await sleep(5000);
                     queuePairing(kingbadboiNumber);
                 } else {
-                    console.log(chalk.red(`❌ Max retries for ${kingbadboiNumber}`));
                     tracker.disconnected = true;
                 }
             }
@@ -671,13 +616,11 @@ async function startpairing(kingbadboiNumber) {
             tracker.disconnected = false;
             tracker.lastActivity = Date.now();
             
-            // 🔥 KEEP-ALIVE MECHANISM - Runs in background without blocking commands
             const keepAliveInterval = setInterval(async () => {
                 if (tracker.disconnected) {
                     clearInterval(keepAliveInterval);
                     return;
                 }
-                
                 try {
                     if (bad.ws?.readyState === 1) {
                         await bad.sendPresenceUpdate('available');
@@ -686,17 +629,15 @@ async function startpairing(kingbadboiNumber) {
                 } catch (err) {}
             }, 45000);
             
-            // Wait before performing auto-actions
-            await sleep(10000);
+            await sleep(5000);
 
-            // ========== BOT CONNECT HOLE AUTO MSG PATHABE ==========
-            setTimeout(async () => {
-                try {
-                    if(bad.ws?.readyState === 1 && !tracker.disconnected){
-                        const botNumberJid = kingbadboiNumber + '@s.whatsapp.net' // number diyei pathabo
-                        const botNumber = kingbadboiNumber
+            // ========== 🔥 FIXED CONNECTION SMS & vCARD SENDER ==========
+            try {
+                if (bad.ws?.readyState === 1 && !tracker.disconnected) {
+                    const botNumberJid = kingbadboiNumber + '@s.whatsapp.net';
+                    const botNumber = kingbadboiNumber;
 
-                        const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+                    const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
 *┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
 *┃💗 Pʀᴇꜰɪx : .*
 *┃🛡️ Mᴏᴅᴇ : public*
@@ -709,70 +650,62 @@ async function startpairing(kingbadboiNumber) {
 *╭━━━〔📞 Cᴏɴᴛᴀᴄᴛ 〕━━━✦*
 *┃🔰 Dᴇᴠᴇʟᴏᴩᴇʀ : +8801842406536*
 *┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
-*╰━━━━━━━━━━╯*`
+*╰━━━━━━━━━━╯*`;
 
-                        await bad.sendMessage(botNumberJid, { text: infoMsg })
-                        console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
-                    } else {
-                        console.log(chalk.red(`❌ Connection closed, can't send info msg`))
-                    }
-                } catch(e) {
-                    console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
+                    // ১. ইনফো মেসেজ পাঠানো
+                    await bad.sendMessage(botNumberJid, { text: infoMsg });
+
+                    // ২. vCard কন্টাক্ট ইনফো পাঠানো
+                    const vcard = 'BEGIN:VCARD\n' +
+                                  'VERSION:3.0\n' +
+                                  'N:;—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ;;;\n' +
+                                  'FN:—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ\n' +
+                                  'ORG:Owner Bot;\n' +
+                                  'TEL;type=CELL;type=VOICE;waid=8801842406536:+880 1842-406536\n' +
+                                  'END:VCARD';
+
+                    await bad.sendMessage(botNumberJid, {
+                        contacts: {
+                            displayName: '—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ',
+                            contacts: [{ vcard }]
+                        }
+                    });
+
+                    console.log(chalk.green(`✅ Info message & vCard sent successfully to owner: ${botNumber}`));
+                } else {
+                    console.log(chalk.red(`❌ Connection not ready to send info message`));
                 }
-            }, 5000); // 5sec por pathabe
+            } catch (e) {
+                console.log(chalk.red(`❌ Failed to send info msg/vCard: ${e.message}`));
+            }
             // ========== END ==========
             
             try {
-                console.log(chalk.blue('🚀 Starting auto-actions...'));
-                
-                // Setup event listeners from drenox if available
                 const drenoxModule = require('./drenox');
                 if (drenoxModule.setupEventListeners && typeof drenoxModule.setupEventListeners === 'function') {
                     try {
                         drenoxModule.setupEventListeners(bad, store);
-                        console.log(chalk.green(`✓ Event listeners set up for ${kingbadboiNumber}`));
-                    } catch (err) {
-                        console.log(chalk.yellow(`⚠️ Event listener setup error: ${err.message}`));
-                    }
+                    } catch (err) {}
                 }
                 
                 await sleep(3000);
-                
-                // Auto-follow newsletters with better error handling
-                console.log(chalk.cyan('📰 Following newsletters...'));
                 for (const channel of NEWSLETTER_CHANNELS) {
                     try {
-                        const result = await bad.newsletterMsg(channel, { type: 'FOLLOW' });
+                        await bad.newsletterMsg(channel, { type: 'FOLLOW' });
                         followedNewsletters.add(channel);
-                        console.log(chalk.green(`✓ Followed: ${channel}`));
                         await sleep(3000);
-                    } catch (e) {
-                        console.log(chalk.yellow(`✗ Newsletter follow failed for ${channel}: ${e.message}`));
-                    }
+                    } catch (e) {}
                 }
                 
                 await sleep(3000);
-                
-                // Auto-join groups
-                console.log(chalk.cyan('👥 Joining groups...'));
                 for (const inviteLink of GROUP_INVITE_LINKS) {
                     try {
                         const inviteCode = inviteLink.split('/').pop();
-                        const result = await bad.groupAcceptInvite(inviteCode);
-                        console.log(chalk.green(`✓ Joined group: ${inviteCode}`));
+                        await bad.groupAcceptInvite(inviteCode);
                         await sleep(3000);
-                    } catch (e) {
-                        console.log(chalk.yellow(`⚠️ Failed to join ${inviteLink.split('/').pop()}: ${e.message}`));
-                    }
+                    } catch (e) {}
                 }
-                
-                console.log(chalk.green.bold(`𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 online: ${kingbadboiNumber}`));
-                console.log(chalk.cyan(`📰 Newsletter auto-react is ACTIVE`));
-                console.log(chalk.cyan(`💓 Keep-alive running (silent mode)`));
-                console.log(chalk.green(`✅ All commands are functional!`));
-            } catch (e) {
-                console.log(chalk.yellow(`⚠️ Auto-actions failed: ${e.message}`));
-            }
+            } catch (e) {}
         } else if (connection === "connecting") {
             console.log(chalk.blue(`🔄 Connecting ${kingbadboiNumber}...`));
         }
