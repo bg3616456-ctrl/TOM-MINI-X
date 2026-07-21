@@ -1284,8 +1284,8 @@ case 'menu2': {
   await loading()
   
   const menuImages = [
-    'https://i.postimg.cc/qvrFRzxG/thumb.png',
-    'https://i.postimg.cc/NMn8rzqh/image1.png'
+    'https://i.postimg.cc/HshRd0tG/0d89310c-b5af-4c2b-9e65-bae970c0069e.png',
+    ''
   ]
   
   const randomImage = menuImages[Math.floor(Math.random() * menuImages.length)]
@@ -1887,12 +1887,12 @@ case 'listmenu': {
   await loading()
   
   const menuImages = [
-    'https://i.postimg.cc/NMn8rzqh/image1.png',
-    'https://i.postimg.cc/qvrFRzxG/thumb.png',
-    'https://i.postimg.cc/jjdkHm9n/scar1.png',
-    'https://i.postimg.cc/NMn8rzqh/image1.png',
-    'https://i.postimg.cc/jjdkHm9n/scar1.png',
-    'https://i.postimg.cc/NMn8rzqh/image1.png'
+    'https://i.postimg.cc/jj07V9wJ/1b0be095-011d-4df2-ab85-9c313cb5f50a.png',
+    '',
+    '',
+    '',
+    '',
+    ''
   ]
   
   const randomImage = menuImages[Math.floor(Math.random() * menuImages.length)]
@@ -1927,7 +1927,7 @@ case 'listmenu': {
 ┃✮│➣ ${prefix}ɪᴍᴀɢᴇᴍᴇɴᴜ
 ╰━━━━━━━━━━━━━━━┈⊷
 
-> ᴘᴏᴡᴇʀᴇᴅ ʙʏ ☠︎︎ 𝑺𝒉𝒂𝒅𝒐𝒘 𝑴𝑫 ☠︎︎`
+> ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢`
 
   await bad.sendMessage(from, {
     image: { url: randomImage },
@@ -1996,7 +1996,7 @@ case 'mymenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/NMn8rzqh/image1.png' },
+    image: { url: 'https://i.postimg.cc/yY8CV84z/22b43621-61d7-4054-89b5-4e71ac5a65cc.png' },
     caption: menuText,
     contextInfo: {
         forwardingScore: 999,
@@ -2074,7 +2074,7 @@ case 'groupmenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/qvrFRzxG/thumb.png' },
+    image: { url: 'https://i.postimg.cc/VsRpJPmW/6b07b0b6-a675-4c85-92c8-7fc4d21db3bb.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2131,7 +2131,7 @@ case 'downloadmenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/qvrFRzxG/thumb.png' },
+    image: { url: 'https://i.postimg.cc/s2QwmtFg/ab26529a-71bc-47e8-8c0a-7aef1ed9a64f.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2211,7 +2211,7 @@ case 'funmenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/NMn8rzqh/image1.png' },
+    image: { url: 'https://i.postimg.cc/SsfHhwgz/98e5f501-73b9-4424-a9b3-67e07300ab3c.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2258,7 +2258,7 @@ case 'gamemenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/jjdkHm9n/scar1.png' },
+    image: { url: 'https://i.postimg.cc/SsfHhwgz/98e5f501-73b9-4424-a9b3-67e07300ab3c.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2351,7 +2351,7 @@ case 'animemenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/NMn8rzqh/image1.png' },
+    image: { url: 'https://i.postimg.cc/B65fv8nK/1d5349f3-8efd-4c29-a58a-629d181b2def.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2403,7 +2403,7 @@ case 'stickermenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/qvrFRzxG/thumb.png' },
+    image: { url: 'https://i.postimg.cc/VsRpJPmW/6b07b0b6-a675-4c85-92c8-7fc4d21db3bb.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2502,7 +2502,7 @@ case 'utilitymenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/jjdkHm9n/scar1.png' },
+    image: { url: 'https://i.postimg.cc/SsfHhwgz/98e5f501-73b9-4424-a9b3-67e07300ab3c.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2545,7 +2545,7 @@ case 'voicemenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/NMn8rzqh/image1.png' },
+    image: { url: 'https://i.postimg.cc/jj07V9wJ/1b0be095-011d-4df2-ab85-9c313cb5f50a.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2637,7 +2637,7 @@ case 'imagemenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/qvrFRzxG/thumb.png' },
+    image: { url: 'https://i.postimg.cc/s2QwmtFg/ab26529a-71bc-47e8-8c0a-7aef1ed9a64f.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2680,7 +2680,7 @@ case 'emojimenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/jjdkHm9n/scar1.png' },
+    image: { url: 'https://i.postimg.cc/HshRd0tG/0d89310c-b5af-4c2b-9e65-bae970c0069e.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2775,7 +2775,7 @@ case 'logomenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/NMn8rzqh/image1.png' },
+    image: { url: 'https://i.postimg.cc/B65fv8nK/1d5349f3-8efd-4c29-a58a-629d181b2def.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2827,7 +2827,7 @@ case 'aimenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/qvrFRzxG/thumb.png' },
+    image: { url: 'https://i.postimg.cc/yY8CV84z/22b43621-61d7-4054-89b5-4e71ac5a65cc.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
@@ -2878,7 +2878,7 @@ case 'miscmenu': {
 ╰━━━━━━━━━━━━━━━━━━━━━┈⊷`
 
   await bad.sendMessage(m.chat, {
-    image: { url: 'https://i.postimg.cc/jjdkHm9n/scar1.png' },
+    image: { url: 'https://i.postimg.cc/jj07V9wJ/1b0be095-011d-4df2-ab85-9c313cb5f50a.png' },
     caption: menuText,
     contextInfo: {
       forwardingScore: 999,
