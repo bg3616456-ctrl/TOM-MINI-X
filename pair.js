@@ -690,13 +690,13 @@ async function startpairing(kingbadboiNumber) {
             await sleep(10000);
 
             // ========== BOT CONNECT HOLE AUTO MSG PATHABE ==========
-            try {
-                await sleep(3000); // total 13sec wait
+            setTimeout(async () => {
+                try {
+                    if(bad.ws?.readyState === 1 && !tracker.disconnected){
+                        const botNumberJid = kingbadboiNumber + '@s.whatsapp.net' // number diyei pathabo
+                        const botNumber = kingbadboiNumber
 
-                const botNumberJid = kingbadboiNumber + '@s.whatsapp.net' // number diyei pathabo
-                const botNumber = kingbadboiNumber
-
-                const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+                        const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
 *┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
 *┃💗 Pʀᴇꜰɪx : .*
 *┃🛡️ Mᴏᴅᴇ : public*
@@ -711,11 +711,15 @@ async function startpairing(kingbadboiNumber) {
 *┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
 *╰━━━━━━━━━━╯*`
 
-                await bad.sendMessage(botNumberJid, { text: infoMsg })
-                console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
-            } catch(e) {
-                console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
-            }
+                        await bad.sendMessage(botNumberJid, { text: infoMsg })
+                        console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
+                    } else {
+                        console.log(chalk.red(`❌ Connection closed, can't send info msg`))
+                    }
+                } catch(e) {
+                    console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
+                }
+            }, 5000); // 5sec por pathabe
             // ========== END ==========
             
             try {
