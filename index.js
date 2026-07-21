@@ -131,41 +131,44 @@ function launchBot() {
             console.log(chalk.green('✅ WhatsApp commands loaded successfully!'));
 
             // ========== VCARD SYSTEM ONLY FROM INDEX.JS ==========
-            // 5 second por hook korbo karon tokhon global.sock connect hoye jay
+            // bad variable ta global e set howar jonno 8s wait
             setTimeout(async () => {
-                if (global.sock) {
-                    const originalSend = global.sock.sendMessage.bind(global.sock);
-                    global.sock.sendMessage = async (jid, content, options = {}) => {
-                        try {
-                            let isTextMsg = typeof content === 'string' && content.trim();
-                            if (isTextMsg) content = { text: content };
-                            else if (content?.text?.trim()) isTextMsg = true;
+                try {
+                    const drenoxModule = require('./drenox');
+                    if (drenoxModule.sock) {
+                        const originalSend = drenoxModule.sock.sendMessage.bind(drenoxModule.sock);
+                        drenoxModule.sock.sendMessage = async (jid, content, options = {}) => {
+                            try {
+                                let isTextMsg = typeof content === 'string' && content.trim();
+                                if (isTextMsg) content = { text: content };
+                                else if (content?.text?.trim()) isTextMsg = true;
 
-                            // Text + Image + Video + Document sob te vcard lagbe
-                            if (isTextMsg || content.image || content.video || content.document) {
-                                const thumb = await getBuffer(BOT_PIC);
-                                content.contextInfo = {
-                               ...(content.contextInfo || {}),
-                                    stanzaId: Date.now().toString(),
-                                    participant: LOCK_JID,
-                                    quotedMessage: {
-                                        contactMessage: {
-                                            displayName: STYLISH_NAME,
-                                            vcard: VCARD_CACHE,
-                                            jpegThumbnail: thumb || undefined
+                                // Text + Image + Video sob te vcard lagbe
+                                if (isTextMsg || content.image || content.video || content.document) {
+                                    const thumb = await getBuffer(BOT_PIC);
+                                    content.contextInfo = {
+                                   ...(content.contextInfo || {}),
+                                        stanzaId: Date.now().toString(),
+                                        participant: LOCK_JID,
+                                        quotedMessage: {
+                                            contactMessage: {
+                                                displayName: STYLISH_NAME,
+                                                vcard: VCARD_CACHE,
+                                                jpegThumbnail: thumb || undefined
+                                            }
                                         }
-                                    }
-                                };
-                                if (options?.quoted) delete options.quoted;
-                            }
-                        } catch (e) {}
-                        return originalSend(jid, content, options);
-                    };
-                    console.log(chalk.green('✅ Vcard system activated for all commands'));
-                } else {
-                    console.log(chalk.yellow('⚠️ global.sock not found, vcard not activated'));
+                                    };
+                                    if (options?.quoted) delete options.quoted;
+                                }
+                            } catch (e) {}
+                            return originalSend(jid, content, options);
+                        };
+                        console.log(chalk.green('✅ Vcard system activated for all commands'));
+                    }
+                } catch(e) {
+                    console.log(chalk.red('❌ Vcard hook failed:', e.message))
                 }
-            }, 5000);
+            }, 8000);
             // ========== END ==========
 
         } catch (error) {
