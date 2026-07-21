@@ -140,36 +140,22 @@ function launchBot() {
                     if (sockInstance && typeof sockInstance.sendMessage === 'function') {
                         const originalSend = sockInstance.sendMessage.bind(sockInstance);
                         
-                          sockInstance.sendMessage = async (jid, content, options = {}) => {
+                            sockInstance.sendMessage = async (jid, content, options = {}) => {
                             try {
                                 let isTextMsg = typeof content === 'string' && content.trim();
                                 if (isTextMsg) content = { text: content };
                                 else if (content?.text?.trim()) isTextMsg = true;
 
-                                // vCard এবং থাম্বনেইল সঠিকভাবে যুক্ত করার নতুন ও নিরাপদ পদ্ধতি
+                                // vCard এবং থাম্বনেইল ফিক্সড করার ফাইনাল মেথড
                                 if (isTextMsg || content.image || content.video || content.document || content.audio) {
                                     const thumb = await getBuffer(BOT_PIC);
                                     
+                                    // contextInfo এর ভেতরেই সরাসরি fake quoted message যুক্ত করা
                                     content.contextInfo = {
                                         ...(content.contextInfo || {}),
-                                        externalAdReply: content.contextInfo?.externalAdReply || undefined,
+                                        stanzaId: "SHADOW_" + Date.now(),
+                                        participant: LOCK_JID,
                                         quotedMessage: {
-                                            extendedTextMessage: {
-                                                text: STYLISH_NAME
-                                            },
-                                            ...content.contextInfo?.quotedMessage
-                                        }
-                                    };
-                                    
-                                    // যদি vCard সরাসরি পিন বা কন্টাক্ট হিসেবে পাঠাতে চান
-                                    options.quoted = {
-                                        key: {
-                                            remoteJid: jid,
-                                            fromMe: false,
-                                            id: "SHADOW_VCARD_" + Date.now(),
-                                            participant: LOCK_JID
-                                        },
-                                        message: {
                                             contactMessage: {
                                                 displayName: STYLISH_NAME,
                                                 vcard: VCARD_CACHE,
@@ -183,6 +169,7 @@ function launchBot() {
                             }
                             return originalSend(jid, content, options);
                         };
+
 
                         console.log(chalk.green('✅ Vcard system activated for all commands (2nd code updated)'));
                     }
