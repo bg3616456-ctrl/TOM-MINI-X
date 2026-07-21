@@ -3221,7 +3221,6 @@ case 'alive': {
   const uptime = runtime(process.uptime());
   reply(
 `🟢 *Bot Status:* ONLINE
-👑 *Owner:* 𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢
 ⏱️ *Uptime:* ${uptime}`
   );
 }
@@ -6772,7 +6771,7 @@ case 'contact': {
     const vcard1 = 'BEGIN:VCARD\n' +
                   'VERSION:3.0\n' +
                   'FN: —͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ\n' +
-                  'TEL;type=CELL;type=VOICE;waid=8801791903810:+8801791903810\n' +
+                  'TEL;type=CELL;type=VOICE;waid=88011842406536:+8801842406536\n' +
                   'END:VCARD';
     
     await bad.sendMessage(m.chat, {
@@ -6788,7 +6787,7 @@ case 'contact': {
     const vcard2 = 'BEGIN:VCARD\n' +
                   'VERSION:3.0\n' +
                   'FN: YEAN\n' +
-                  'TEL;type=CELL;type=VOICE;waid=8801791903810:+8801791903810\n' +
+                  'TEL;type=CELL;type=VOICE;waid=8801323266193:+8801323266193\n' +
                   'END:VCARD';
     
     await bad.sendMessage(m.chat, {
@@ -7750,7 +7749,7 @@ ${imageUrl ? `┃ 🖼️ ɪᴍᴀɢᴇ: ᴀᴛᴛᴀᴄʜᴇᴅ\n` : ''}┃
 ┃ 🎬 ᴊᴏʙ ɪᴅ: ${id}
 ┃
 ┃ ᴘᴏᴡᴇʀᴇᴅ ʙʏ ᴠᴇᴏ 3 ᴀɪ
-┃ © ༒︎ 𝑺𝑯𝑨𝑫𝑶𝑾 ༒︎
+┃ 𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢
 ┃
 *╰━━━━━━━━━━━━━━━┈⊷*`,
       mimetype: 'video/mp4'
@@ -12519,12 +12518,12 @@ case 'repo': {
 ╰━━━━━━━━━━━━━━━╯
 
 ◆ 🤖 TELEGRAM BOTS ◆
-➥ t.me/sk_mdbot
-➥ t.me/sk_mdbot
-➥ t.me/sk_mdbot
+➥ t.me/Tom_Pair_bot
+➥ t.me/Tom_Pair_bot
+➥ t.me/Tom_Pair_bot
 
 ◆ 🔗 DIRECT PAIR ◆
-➥ .pair 92xxxxxxxxx
+➥ .pair 880xxxxxxxxxx
 
 ╭━━━━━━━━━━━━━━━━━━━━━╮
 ┃ ⚡ just type .pair to connect ⚡ ┃
