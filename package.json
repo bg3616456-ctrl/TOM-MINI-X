@@ -1,7 +1,7 @@
 {
-  "name": "shadow-md",
+  "name": "𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢",
   "version": "2.0.0",
-  "description": "Powerful whatsapp bot created by shadow",
+  "description": "Powerful whatsapp bot created by Tom",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -17,7 +17,7 @@
     "multi-session",
     "pairing-bot"
   ],
-  "author": "shadow",
+  "author": "Tom",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
@@ -102,9 +102,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://t.me/shadowhacr"
+    "url": "https://t.me/majidulislamzihad"
   },
   "bugs": {
-    "url": "https://t.me/shadowhacr"
+    "url": "https://t.me/majidulislamzihad"
   }
 }
