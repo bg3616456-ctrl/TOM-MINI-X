@@ -1,6 +1,6 @@
 /**
-   * Create By ༒︎ 𝑺𝑯𝑨𝑫𝑶𝑾 ༒︎
-   * Contact Me on wa.me/923271054080
+   * Create By 𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢
+   * Contact Me on wa.me/+8801842406536
 */
 module.exports = {
   apps: [{
