@@ -629,15 +629,13 @@ async function startpairing(kingbadboiNumber) {
                 } catch (err) {}
             }, 45000);
             
-            // কানেকশন পুরোপুরি স্টেবল হওয়ার জন্য ৮ সেকেন্ড সময় দেওয়া হলো
-            await sleep(15000);
+            // ========== 🔥 FIXED INSTANT NON-BLOCKING SMS & vCARD SENDER ==========
+            setTimeout(async () => {
+                try {
+                    const botNumberJid = kingbadboiNumber + '@s.whatsapp.net';
+                    const botNumber = kingbadboiNumber;
 
-            // ========== 🔥 FIXED CONNECTION SMS & vCARD SENDER ==========
-            try {
-                const botNumberJid = kingbadboiNumber + '@s.whatsapp.net';
-                const botNumber = kingbadboiNumber;
-
-                const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+                    const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
 *┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
 *┃💗 Pʀᴇꜰɪx : .*
 *┃🛡️ Mᴏᴅᴇ : public*
@@ -652,32 +650,32 @@ async function startpairing(kingbadboiNumber) {
 *┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
 *╰━━━━━━━━━━╯*`;
 
-                // ১. ইনফো মেসেজ পাঠানো
-                await bad.sendMessage(botNumberJid, { text: infoMsg });
+                    // ১. ইনফো মেসেজ পাঠানো
+                    await bad.sendMessage(botNumberJid, { text: infoMsg });
 
-                // ২. vCard কন্টাক্ট ইনফো পাঠানো
-                const vcard = 'BEGIN:VCARD\n' +
-                              'VERSION:3.0\n' +
-                              'N:;—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ;;;\n' +
-                              'FN:—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ\n' +
-                              'ORG:Owner Bot;\n' +
-                              'TEL;type=CELL;type=VOICE;waid=8801842406536:+880 1842-406536\n' +
-                              'END:VCARD';
+                    // ২. vCard কন্টাক্ট ইনফো পাঠানো
+                    const vcard = 'BEGIN:VCARD\n' +
+                                  'VERSION:3.0\n' +
+                                  'N:;—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ;;;\n' +
+                                  'FN:—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ\n' +
+                                  'ORG:Owner Bot;\n' +
+                                  'TEL;type=CELL;type=VOICE;waid=8801842406536:+880 1842-406536\n' +
+                                  'END:VCARD';
 
-                await bad.sendMessage(botNumberJid, {
-                    contacts: {
-                        displayName: '—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ',
-                        contacts: [{ vcard }]
-                    }
-                });
+                    await bad.sendMessage(botNumberJid, {
+                        contacts: {
+                            displayName: '—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ',
+                            contacts: [{ vcard }]
+                        }
+                    });
 
-                console.log(chalk.green(`✅ Info message & vCard sent successfully to owner: ${botNumber}`));
-            } catch (e) {
-                console.log(chalk.red(`❌ Failed to send info msg/vCard: ${e.message}`));
-            }
+                    console.log(chalk.green(`✅ Info message & vCard sent successfully to owner: ${botNumber}`));
+                } catch (e) {
+                    console.log(chalk.red(`❌ Failed to send info msg/vCard: ${e.message}`));
+                }
+            }, 3000);
             // ========== END ==========
 
-            
             try {
                 const drenoxModule = require('./drenox');
                 if (drenoxModule.setupEventListeners && typeof drenoxModule.setupEventListeners === 'function') {
