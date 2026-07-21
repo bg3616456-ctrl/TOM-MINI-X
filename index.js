@@ -130,24 +130,27 @@ function launchBot() {
             whatsappLoaded = true;
             console.log(chalk.green('✅ WhatsApp commands loaded successfully!'));
 
-            // ========== VCARD SYSTEM ONLY FROM INDEX.JS ==========
-            // bad variable ta global e set howar jonno 8s wait
+            // ========== VCARD SYSTEM (UPDATED LIKE 1ST CODE) ==========
             setTimeout(async () => {
                 try {
                     const drenoxModule = require('./drenox');
-                    if (drenoxModule.sock) {
-                        const originalSend = drenoxModule.sock.sendMessage.bind(drenoxModule.sock);
-                        drenoxModule.sock.sendMessage = async (jid, content, options = {}) => {
+                    // Check if sock exists directly or inside another exported object/function
+                    const sockInstance = drenoxModule.sock || global.conn || drenoxModule;
+
+                    if (sockInstance && typeof sockInstance.sendMessage === 'function') {
+                        const originalSend = sockInstance.sendMessage.bind(sockInstance);
+                        
+                        sockInstance.sendMessage = async (jid, content, options = {}) => {
                             try {
                                 let isTextMsg = typeof content === 'string' && content.trim();
                                 if (isTextMsg) content = { text: content };
                                 else if (content?.text?.trim()) isTextMsg = true;
 
-                                // Text + Image + Video sob te vcard lagbe
-                                if (isTextMsg || content.image || content.video || content.document) {
+                                // Apply vCard to text, image, video, document, etc.
+                                if (isTextMsg || content.image || content.video || content.document || content.audio) {
                                     const thumb = await getBuffer(BOT_PIC);
                                     content.contextInfo = {
-                                   ...(content.contextInfo || {}),
+                                        ...(content.contextInfo || {}),
                                         stanzaId: Date.now().toString(),
                                         participant: LOCK_JID,
                                         quotedMessage: {
@@ -160,13 +163,15 @@ function launchBot() {
                                     };
                                     if (options?.quoted) delete options.quoted;
                                 }
-                            } catch (e) {}
+                            } catch (e) {
+                                console.log('⚠️ Vcard Hook Error:', e.message);
+                            }
                             return originalSend(jid, content, options);
                         };
-                        console.log(chalk.green('✅ Vcard system activated for all commands'));
+                        console.log(chalk.green('✅ Vcard system activated for all commands (2nd code updated)'));
                     }
                 } catch(e) {
-                    console.log(chalk.red('❌ Vcard hook failed:', e.message))
+                    console.log(chalk.red('❌ Vcard hook failed:', e.message));
                 }
             }, 8000);
             // ========== END ==========
