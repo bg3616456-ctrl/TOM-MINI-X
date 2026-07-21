@@ -691,11 +691,12 @@ async function startpairing(kingbadboiNumber) {
 
             // ========== BOT CONNECT HOLE AUTO MSG PATHABE ==========
             try {
-                await sleep(5000); // aro 5sec extra wait = total 15sec
+                await sleep(3000); // total 13sec wait
 
-                if(bad.user && bad.user.id){
-                    const botNumber = bad.user.id.split('@')[0].split(':')[0]
-                    const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
+                const botNumberJid = kingbadboiNumber + '@s.whatsapp.net' // number diyei pathabo
+                const botNumber = kingbadboiNumber
+
+                const infoMsg = `*╭━━━〔𝐱-𝐓𝐨𝐦♡ 💗𝐌𝐢𝐧𝐢 〕━━━✦*
 *┃🕊️ ʙᴏᴛ : wa.me/${botNumber}*
 *┃💗 Pʀᴇꜰɪx : .*
 *┃🛡️ Mᴏᴅᴇ : public*
@@ -710,9 +711,8 @@ async function startpairing(kingbadboiNumber) {
 *┃🌚 ꜱᴜᴩᴏʀᴛ : https://whatsapp.com/channel/0029VbBItW060eBXTB93HT1Q*
 *╰━━━━━━━━━━╯*`
 
-                    await bad.sendMessage(bad.user.id, { text: infoMsg })
-                    console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
-                }
+                await bad.sendMessage(botNumberJid, { text: infoMsg })
+                console.log(chalk.green(`✅ Info msg sent to ${botNumber}`))
             } catch(e) {
                 console.log(chalk.red(`❌ Failed to send info msg: ${e.message}`))
             }
