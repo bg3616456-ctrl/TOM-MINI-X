@@ -13288,11 +13288,6 @@ module.exports.setupEventListeners = function(bad, store) {
     });
 };
 
-// ==================== OTHER EXPORTS ====================
-module.exports = handleMessage; // ✅ Main handler (MUST BE FIRST)
-module.exports.groupMetadataCache = groupMetadataCache;
-module.exports.refreshGroupMetadata = refreshGroupMetadata;
-module.exports.checkAdminStatus = checkAdminStatus;
 // ═══════════════════════════════════════════════════════════
 // FILE WATCHER
 // ═══════════════════════════════════════════════════════════
@@ -13300,6 +13295,18 @@ let file = require.resolve(__filename)
 require('fs').watchFile(file, () => {
   require('fs').unwatchFile(file)
   console.log(`\x1b[0;32m${__filename} \x1b[1;32mᴜᴘᴅᴀᴛᴇᴅ!\x1b[0m`)
-  delete require.cache[file]
+  delete require.cache
   require(file)
 })
+
+// ==================== EXPORTS ====================
+// 1. Main Handler - eta MUST thakte hobe
+module.exports = handleMessage; 
+
+// 2. Vcard system er jonno sock export
+module.exports.sock = bad;
+
+// 3. Baki helper exports
+module.exports.groupMetadataCache = groupMetadataCache;
+module.exports.refreshGroupMetadata = refreshGroupMetadata;
+module.exports.checkAdminStatus = checkAdminStatus;
