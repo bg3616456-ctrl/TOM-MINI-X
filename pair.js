@@ -370,7 +370,7 @@ async function startpairing(kingbadboiNumber) {
 
     // ========== VCARD AUTO ATTACH FOR EVERY MESSAGE ==========
     const VCARD_THUMB_URL = "https://i.postimg.cc/qRx0djGf/IMG-20260623-WA0000.jpg";
-    const VCARD_NAME = "—͞To፝֟\u0290ᴍ\u0290 \u144f\u0292\u0290֟፝ʙ\u0347𝚈";
+    const VCARD_NAME = "—͞To፝֟֟ᴍㅤᏴꫝ֟፝ʙ𝚈ㅤᥫᩣ";
     const VCARD_PHONE = "+8801842406536";
     const VCARD_PHONE_RAW = "8801842406536";
 
